@@ -2,10 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-p = 0.5
-nt = 252 # number of trading days in a year
-N = 8 # number of time steps
-
 def random_walk(p,nt):
 
     # generate a set of uniform random draws
@@ -19,7 +15,6 @@ def random_walk(p,nt):
 def random_walk_2d(p,nt, N):
 
     i = 0
-    # path = np.array([0])
     paths = np.zeros((N, nt+1)) # set nt+1 to include the inital position
 
     for i in range(N):
@@ -31,7 +26,6 @@ def random_walk_2d(p,nt, N):
         while j < nt:
             position = position + x[j] # new loacation equals previous plus a random step
             paths[i, j+1] = position
-            # path = np.append(path, position)
             j += 1
     return paths
 
@@ -62,6 +56,11 @@ def visualize_random_walk(paths):
 
 
 if __name__ == '__main__':
+    # set the parameters
+    p = 0.5       # probability of go upward
+    nt = 252      # number of trading days in a year
+    N = 8         # number of time steps
+
     paths = random_walk_2d(p, nt, N)
     visualize_random_walk(paths)
     
