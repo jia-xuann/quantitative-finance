@@ -1,23 +1,8 @@
 import numpy as np
 
 
-'''
-Parameters:
------------
-nt: number of time steps
-dt: time step size
-P0: initial price(s) for the asset(s) - float or array-like, defaults to 1
-N = number of assets 
 
-'''
-# Set parameters for sampling interval
-sigma = 0.3       # Set annualized volotility to 30%
-mu = 0.1          # Set annual drift/return to 10%
-nt = 252          # Number of time steps
-dt = 1/nt         # Set time step scale factor to one day
-N = 8             # Number of assets
-
-def normal_return(nt, dt):
+def normal_return(nt, dt, mu, sigma):
     # Generate a set of standard normal random draws
     # np.random.seed(seed) # For reproducibility
     z = np.random.normal(0, 1, nt)
@@ -26,7 +11,19 @@ def normal_return(nt, dt):
     r = mu * dt + z * sigma * np.sqrt(dt)
     
     return r
-def log_price_dynamics(nt, dt, N, P0=1):
+def log_price_dynamics(nt, dt, mu, sigma, N, P0=1):
+
+    '''
+    Parameters:
+    -----------
+    nt: number of time steps
+    dt: time step size
+    mu: annual drift/return
+    sigma: annualized volatility
+    P0: initial price(s) for the asset(s) - float or array-like, defaults to 1
+    N = number of assets 
+
+    '''
     i = 0
     paths = np.zeros((N, nt+1)) # set nt+1 to include the inital position
 
@@ -34,7 +31,7 @@ def log_price_dynamics(nt, dt, N, P0=1):
         j = 0
         position = 0 
         paths[0,i] = position 
-        x = normal_return(nt, dt) # generate random steps for this walk
+        x = normal_return(nt, dt, mu, sigma) # generate random steps for this walk
 
         while j < nt:
             position = position + x[j] # new loacation equals previous plus a random step
@@ -52,7 +49,14 @@ def log_price_dynamics(nt, dt, N, P0=1):
 
 
 if __name__ == '__main__':
-    paths = log_price_dynamics(nt, dt, N)
+    
+    # Set parameters for sampling interval
+    sigma = 0.3       # Set annualized volotility to 30%
+    mu = 0.1          # Set annual drift/return to 10%
+    nt = 252          # Number of time steps
+    dt = 1/nt         # Set time step scale factor to one day
+    N = 8             # Number of assets
+    paths = log_price_dynamics(nt, dt, mu, sigma, N)
     
     # Visualize the lognormal price process
     import os
