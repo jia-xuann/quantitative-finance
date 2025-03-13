@@ -30,7 +30,7 @@ def log_price_dynamics(nt, dt, mu, sigma, N, P0=1):
     for i in range(N):
         j = 0
         position = 0 
-        paths[0,i] = position 
+ 
         x = normal_return(nt, dt, mu, sigma) # generate random steps for this walk
 
         while j < nt:
