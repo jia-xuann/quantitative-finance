@@ -11,6 +11,7 @@ def plot_normal_distribution(returns, title, bins=50, color='tab:blue', edgecolo
     """
 
     # Plot the histogram
+    plt.figure(figsize=(10,6))
     plt.hist(returns, bins=bins, edgecolor=edgecolor, color=color, density=True)
     
     # Generate the density curve
@@ -27,11 +28,12 @@ def plot_normal_distribution(returns, title, bins=50, color='tab:blue', edgecolo
     plt.legend()
     plt.title(title)
     
-    plt.savefig('distribution_plot.png')
+    # plt.savefig('distribution_plot.png')
     print('\nPlot Saved.')
     plt.show()
 
 if __name__ == '__main__':
+    
     # Set parameters for sampling interval
     sigma = 0.3       # Set annualized volotility to 30%
     mu = 0.1          # Set annual drift/return to 10%
@@ -45,7 +47,7 @@ if __name__ == '__main__':
     # Calculate returns
     returns = P[:,-1]/P[:,0] - 1
 
-    #  Calculate empirical statistics
+    # Calculate empirical statistics
     empirical_mean = np.mean(returns)
     empirical_var = np.std(returns)
     # Calculate theoretical statistics
@@ -63,5 +65,28 @@ if __name__ == '__main__':
 
     title = 'Distribution of 1-year log returns'
     plot_normal_distribution(price_ratios, title)
+
+    # Create and display the Q-Q plots
+    def show_qqplots():
+
+        # Create a figure with two subplots side by side
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize = (10,6))
+        
+        # Create first Q-Q plot: lognormal distribution
+        stats.probplot(returns+1, plot=ax1)
+        ax1.set_title('QQ Plot of 1+R versus Normal distribution')
+        ax1.grid(True)
+
+        # Create second Q-Q plot: normal distribution
+        stats.probplot(price_ratios, plot=ax2)
+        ax2.set_title('QQ Plot of log(1+R) versus Normal distribution')
+        ax2.grid(True)
+        
+        # Adjust layout
+        plt.tight_layout()
+        plt.show()
+
+    show_qqplots()
+
     
   
