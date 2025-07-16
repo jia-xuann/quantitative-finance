@@ -14,7 +14,7 @@ N = number of random walks generated
 def random_walk(p,nt):
 
     # generate a set of uniform random draws
-    z = np.random.uniform(size=nt*N) # z \in [0,1]
+    z = np.random.uniform(size=nt) # z \in [0,1]
 
     # transform to binomial random variable +/- 1
     x = 2 * (z < p) - 1 # 50% chance that a unifrom random variable will be less than 0.5
