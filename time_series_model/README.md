@@ -18,7 +18,7 @@ The model for the time series $r_t$ is defined as:
 $$r_t = c_0+c_1\cdot r_{t-1}+c_2\cdot r_{t-2}+\epsilon_t$$
 $$\epsilon_t \sim N(0, \sigma^2)$$
 
-![AR(2) Sample Path](./figures/ar2_sample_path.png)
+![AR(2) Path](./figures/ar2_path.png)
 
 ### MA(2) Sample
 
@@ -29,7 +29,7 @@ MA(2), moving average of order 2, can be expressed as
 $$r_t = c + \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} $$
 
 $$\epsilon_t \sim N(0, \sigma^2)$$
-![MA(2) Sample Path](./figures/ma2_sample_path.png)
+![MA(2) Path](./figures/ma2_path.png)
 
 
 ### Autocorrelation
@@ -45,22 +45,29 @@ ACF and PACF are helpful to determine the appropriate order of an autoregressive
 
 The autocorrelation function (ACF) measures the correlation between a time series and its own lagged values. It shows the overall correlation at each lag, including both direct and indirect effects.
 
-![AR(2)Sample ACF](./figures/ar2_sample_acf.png)
-![MA(2)Sample ACF](./figures/ma2_sample_acf.png)
+![AR(2) ACF](./figures/ar2_acf.png)
+![MA(2) ACF](./figures/ma2_acf.png)
 
 The ACF of an AR(2) process gradually tails off, when the ACF of an MA(2) process shows a sharp cutoff after lag 2, lag 1 to 2 are significant with all higher lags being statistically insignificant.
 
+![White Noise ACF](./figures/white_noise_acf.png)
+This is a ACF plot for generated white noise, almost all correlations are relatively small (between -0.1 and 0.1) and fall within the 95% confidence interval. 
+
+No clear decay pattern or seasonality is visible. 
 
 #### PACF
 The partial autocorrelation function (PACF) measures the direct correlation between a time series and its lagged values after removing the effects of all the shorter lags.
 
-![AR(2)Sample PACF](./figures/ar2_sample_pacf.png)
-![MA(2)Sample PACF](./figures/ma2_sample_pacf.png)
+![AR(2) PACF](./figures/ar2_pacf.png)
+![MA(2) PACF](./figures/ma2_pacf.png)
 
 
 The PACF of an AR(2) process shows significant spikes at lags 1 and 2, then cuts off, which matches AR(2) theory.
 Theoretically, the PACF of an MA(2) process should show gradual decay, but it doesn't show the clear parttern we expected here.
 
+![White Noise PACF](./figures/white_noise_pacf.png)
+
+The observations of the above PACF plot are consistent with white noise.
 
 
 - [ ] **Future learning plan**: 
