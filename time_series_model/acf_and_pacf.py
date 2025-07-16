@@ -18,6 +18,7 @@ def calculate_acf(x, nlags):
     ACF, autocorrelation function
     helpful to determine the order of AR model 
     """
+
     mu = np.mean(x)
     x_centered = x - mu
     autocovariance = calculate_autocovariance(x_centered, nlags)
@@ -66,6 +67,15 @@ def plot_acf(data, title, nlags=30, partial=False):
     """
     Plots ACF or PACF with confidence intervals.
     """
+    # --- Input Validation ---
+    data = np.asarray(data)  # Ensure data is a numpy array
+    if data.ndim > 2 or (data.ndim == 2 and 1 not in data.shape):
+        raise ValueError("Input 'x' must be a 1D array or a 2D array with one column or row.")
+    
+    if data.ndim == 2:
+        data = data.flatten()  # Convert row/column vector to 1D array
+    # --- End Validation ---
+
     x_axis = np.arange(0, nlags + 1)
     if partial:
         rho = calculate_pacf(data, nlags=nlags)
@@ -139,4 +149,3 @@ if __name__ == '__main__':
     print(custom_pacf_result)
     print("\nStatsmodels Output (for verification):")
     print(statsmodels_pacf_result)
-
